@@ -1,0 +1,87 @@
+﻿<Page
+    x:Class="App3.View.Register"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App3.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="400.8" d:DesignHeight="798.4">
+
+    <Grid>
+        <TextBox
+            x:Name="NicknameBox" 
+            Text="" Margin="0,191,0,0" 
+            PlaceholderText="Nickname" 
+            BorderBrush="Black" 
+            Height="35"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Center"
+            Width="283" 
+            PreviewKeyDown="LoginEnter"/>
+        <PasswordBox  
+            x:Name="PasswordBox" 
+             Margin="0,255,0,0" 
+            PlaceholderText="Password" 
+            BorderBrush="Black"
+            Height="35"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Center"
+            Width="284" 
+            PreviewKeyDown="LoginEnter"/>
+        <TextBox
+            x:Name="Email" 
+            Text="" Margin="0,324,0,0" 
+            PlaceholderText="E-mail" 
+            BorderBrush="Black" 
+            Height="35"
+            VerticalAlignment="Top" 
+            HorizontalAlignment="Center"
+            Width="283" 
+            PreviewKeyDown="LoginEnter"/>
+        <CheckBox Content="Accept" Margin="58,0,0,0"/>
+        <Button 
+            Content="Register" 
+            RenderTransformOrigin="0,0" 
+            Margin="0,461,0,0" 
+            VerticalAlignment="Top" 
+            Height="68" Width="284" 
+            Click="RegisterAsync" 
+            FontSize="24" 
+            FontWeight="Bold" 
+            FontStyle="Normal" 
+            Background="#66FFFFFF" 
+            BorderBrush="Black" 
+            HorizontalAlignment="Center"/>
+        <TextBlock x:Name="Not_connected" 
+                   x:FieldModifier="public" 
+                   Text="Could not Connect to server try again later!" 
+                   TextWrapping="Wrap" Margin="0,496,0,0" 
+                   FontFamily="Calibri" FontSize="16" 
+                   FocusVisualPrimaryBrush="Red"
+                   VerticalAlignment="Top" Height="39" 
+                   HorizontalAlignment="Center" 
+                   Visibility="Collapsed"/>
+
+        <TextBlock 
+            x:Name="NullLogin" 
+            x:FieldModifier="public" 
+            Text="Login and Password Can not be null" 
+            TextWrapping="Wrap"
+            Margin="0,534,0,0" 
+            FontFamily="Calibri" 
+            FontSize="16" 
+            FocusVisualPrimaryBrush="Red" 
+            VerticalAlignment="Top" 
+            Height="39" 
+            HorizontalAlignment="Center" 
+            Visibility="Collapsed"/>
+
+
+
+        <TextBlock x:Name="Wrong" x:FieldModifier="public" Visibility="Collapsed" Text="Nickname or E-mail is in use try again" TextWrapping="Wrap" Margin="58,531,46,215" FontFamily="Calibri" FontSize="18" />
+        <TextBlock x:Name="ok" x:FieldModifier="public" Visibility="Collapsed" Text="You can now login" TextWrapping="Wrap" Margin="58,534,46,211" FontFamily="Calibri" FontSize="18" />
+        <TextBlock x:Name="con" x:FieldModifier="public" Visibility="Collapsed" Text="Can Not Connect to the server" TextWrapping="Wrap" Margin="58,534,46,211" FontFamily="Calibri" FontSize="18" />
+        <AppBarButton Icon="Back" Margin="0,10,0,0" Click="Back"/>
+    </Grid>
+</Page>
