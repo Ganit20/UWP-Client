@@ -53,12 +53,14 @@
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch"
             PreviewKeyDown="LoginEnter"/>
-        <Button 
+        <Button
+            x:Name="LoginButton"
             Content="Log-in" 
             RenderTransformOrigin="0,0" 
             Grid.Column="1"
             Grid.Row="5"
             VerticalAlignment="Stretch" 
+            x:FieldModifier="public"
             Click="Login" 
             FontSize="24" 
             FontWeight="Bold" 

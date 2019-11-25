@@ -29,6 +29,7 @@ namespace App3
 
         private void Login(object sender, RoutedEventArgs e)
         {
+            LoginButton.IsEnabled = false;
             LoginStart();
         }
 

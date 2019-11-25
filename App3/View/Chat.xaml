@@ -65,7 +65,7 @@
                 <ColumnDefinition Width="6*"/>
                 <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-            <TextBox x:Name="For_Send" Background="White" Grid.Column="0"  PreviewKeyDown="SendEnter" x:FieldModifier="public" PlaceholderText="Message" HorizontalAlignment="Stretch"/>
+            <TextBox x:Name="For_Send" Background="White" Grid.Column="0"  PreviewKeyDown="SendEnter" x:FieldModifier="public" PlaceholderText="Message" HorizontalAlignment="Stretch" />
             <Button Content="Send" Background="White"  Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
             </Grid>
         <ListView Background="White" x:Name="RoomList" Header="Chat Rooms:"  HeaderTemplate="{StaticResource HeaderTemp}" x:FieldModifier="public" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="5" Grid.Row="1" BorderBrush="Black"  SelectionChanged="RoomList_SelectionChanged">

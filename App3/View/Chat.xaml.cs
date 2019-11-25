@@ -60,14 +60,14 @@ namespace App3.View
             Send();
         }
         private void Send()
-        {
+        {if(For_Send.Text != "")
             new Sending().Send(For_Send.Text);
             For_Send.Text = "";
         }
 
         private void SendEnter(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
+            if (e.Key == Windows.System.VirtualKey.Enter && For_Send.Text!="")
             {
                 new Sending().Send(For_Send.Text);
                 For_Send.Text = "";
@@ -123,7 +123,9 @@ namespace App3.View
 
         private async void logout(object sender, RoutedEventArgs e)
         {
+            
            await new Logout().ShowAsync();
         }
+
     }
 }
