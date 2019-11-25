@@ -1,5 +1,6 @@
 ﻿using App3;
 using App3.View;
+using App3.ViewModel;
 using MultiClientClient.Viewmodel;
 using MultiClientWindow.Model;
 using Newtonsoft.Json;
@@ -7,12 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -71,35 +75,38 @@ namespace MultiClientWindow.Viewmodel
             }
         }
         void LoginMe(string Nickname, string Password)
-        {
-
-            NetworkStream st = stream;
+        {          
+           NetworkStream st = stream;
             string From = Nickname;
-            string IP = AddressFamily.InterNetwork.ToString();
-            var info = new user() { Name = From, IP = IP, password = Password };
+            string IP=  null ;
+            var info = new user() { Name = From, password =Encoding.UTF8.GetString(new Encryption().Encrypt(Password)) };
             string U_info = JsonConvert.SerializeObject(info);
-            U_info = "LOG?" + U_info;
+            var U_binfo = new Encryption().Encrypt("LOG?" + U_info);
+            byte[] b = new TextOperations().addByte(Encoding.UTF8.GetBytes(new TextOperations().intLength(U_binfo.Length)) , U_binfo);
             var form1 = form;
-            Byte[] b_info = new Byte[100];
-            b_info = System.Text.Encoding.ASCII.GetBytes(U_info);
-            st.Write(b_info, 0, b_info.Length);
+           
+            st.Write(b, 0, b.Length);
             Task.Factory.StartNew(async () =>
             {
 
                 String response = String.Empty;
                 Byte[] ByteLength = new byte[4];
                 Array.Clear(ByteLength, 0, ByteLength.Length);
-                Int32 bytes = stream.Read(ByteLength, 0, 4);
-
-                if (stream.DataAvailable)
+                stream.ReadTimeout = 10000;
+                try
                 {
+                    Int32 bytes = stream.Read(ByteLength, 0, 4);
+                }catch(IOException e) {
+                    form.Connecting.Text = e.ToString();
+                    form.Connecting.Visibility = 0;
+                }
 
-                    String v = System.Text.Encoding.ASCII.GetString(ByteLength, 0, 4);
+                    String v = System.Text.Encoding.UTF8.GetString(ByteLength, 0, 4);
                     String d = v.Substring(0, v.IndexOf('?', 0, 4));
                     int bl = int.Parse(d);
                     Byte[] data = new Byte[bl];
                     Int32 msg = stream.Read(data, 0, bl);
-                    string strmsg = System.Text.Encoding.ASCII.GetString(data);
+                    string strmsg = System.Text.Encoding.UTF8.GetString(data);
                     string vstrmsg = strmsg.Substring(0, strmsg.IndexOf('?'));
                     switch (vstrmsg)
                     {
@@ -131,7 +138,7 @@ namespace MultiClientWindow.Viewmodel
 
                             }); break;
                     }
-                }
+                
 
             });
         }

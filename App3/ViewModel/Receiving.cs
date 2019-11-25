@@ -14,6 +14,7 @@ using MultiClientWindow.Viewmodel;
 using System.Threading;
 using Windows.UI.Xaml;
 using App3.View;
+using App3;
 
 namespace MultiClientClient.Viewmodel
 {
@@ -21,20 +22,16 @@ namespace MultiClientClient.Viewmodel
     {
         public static Dictionary<string, bool> json;
         Chat view;
-        public void Reading(Chat obj, NetworkStream st)
+        public async void ReadingAsync(Chat obj, NetworkStream st)
         {
-            //DispatcherTimer timer = new DispatcherTimer();
-            //timer.Tick += CheckConnection;
-            //timer.Interval = new TimeSpan(0,0,3);
             view = obj;
-            //timer.Start();
             NetworkStream stream = st;
             while (true)
             {
                 try
                 {
-                    String response = String.Empty;
-                    Byte[] ByteLength = new byte[4];
+                    string response = string.Empty;
+                    byte[] ByteLength = new byte[4];
                     Array.Clear(ByteLength, 0, ByteLength.Length);
                     Int32 bytes = stream.Read(ByteLength, 0, 4);
 
@@ -42,38 +39,36 @@ namespace MultiClientClient.Viewmodel
                     {
                         try
                         {
-                            String v = System.Text.Encoding.ASCII.GetString(ByteLength, 0, 4);
-                            String d = v.Substring(0, v.IndexOf('?', 0, 4));
+                            
+                            string strmsg = System.Text.Encoding.UTF8.GetString(ByteLength);
+                            string d = strmsg.Substring(0, strmsg.IndexOf('?'));
                             int bl = int.Parse(d);
-                            Byte[] data = new Byte[bl];
-                            Int32 msg = stream.Read(data, 0, bl);
-                            string strmsg = System.Text.Encoding.ASCII.GetString(data);
-                            string vstrmsg = strmsg.Substring(0, strmsg.IndexOf('?'));
-                            //if (vstrmsg.Equals("RDC"))
-                            //{
-                            //    Register r = (Register)form;
-                            //    Register(strmsg, dispatcher, r);
-                            //}
-                            //else f = (Form1)form;
-                            switch (vstrmsg)
+                            byte[] a = new byte[bl];
+                            stream.Read(a, 0, a.Length);
+                            var mesage = new Encryption().Decrypt(a);
+                            strmsg = mesage.Substring(0,mesage.IndexOf('?', 0, 4));
+                            Task.Factory.StartNew(() =>
                             {
+                                switch (strmsg)
+                                {
 
-                                case "BAN":
-                                    new Messages().Message(strmsg,view); break;
-                                case "USE":
-                                    new Messages().UserList(strmsg, view);
-                                    break;
-                                case "RCC":
-                                    new Messages().RoomList(strmsg, view );
-                                    break;
-                                case "MSG":
-                                    new Messages().Message(strmsg, view);
-                                    break;
-                                case "SSG":
-                                    new Messages().ChangeRoom(strmsg, view);
-                                    break;
+                                    case "BAN":
+                                         new Messages().MessageAsync(view, mesage); break;
+                                    case "USE":
+                                        new Messages().UserList(strmsg, view, mesage);
+                                        break;
+                                    case "RCC":
+                                        new Messages().RoomList(strmsg, view, mesage);
+                                        break;
+                                    case "MSG":
+                                         new Messages().MessageAsync(view, mesage);
+                                        break;
+                                    case "SSG":
+                                        new Messages().ChangeRoom(mesage, view, a);
+                                        break;
 
-                            }
+                                }
+                            });
                         }
                         catch (System.ArgumentOutOfRangeException) { }
                     }

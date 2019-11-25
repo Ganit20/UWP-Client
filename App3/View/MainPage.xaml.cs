@@ -12,9 +12,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace App3
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
+
     public sealed partial class MainPage : Page
     {
         public MainPage()
@@ -51,7 +49,7 @@ namespace App3
             }
         }
 
-        void LoginStart()
+        async void LoginStart()
         {
             Not_connected.Visibility = (Visibility)1;
             Connecting.Visibility = (Visibility)1;
@@ -59,13 +57,18 @@ namespace App3
             dispatcher = CoreWindow.GetForCurrentThread().Dispatcher;
             if (!NicknameBox.Text.Equals("") && !PasswordBox.Password.Equals(""))
             {
-                new Login().Connect("127.0.0.1", NicknameBox.Text, PasswordBox.Password, this);
+                 await new Login().Connect("51.137.130.21", NicknameBox.Text, PasswordBox.Password, this);
                 NullLogin.Visibility = (Visibility)1;
             }
             else
             {
                 NullLogin.Visibility = 0;
             }
+        }
+
+        private void Options(object sender, RoutedEventArgs e)
+        {
+            //this.Frame.Navigate(typeof(Options));
         }
     }
 }

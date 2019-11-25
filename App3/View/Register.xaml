@@ -6,82 +6,106 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="400.8" d:DesignHeight="798.4">
+    Background="#0496FF"
+    d:DesignWidth="400.8" 
+    d:DesignHeight="798.4">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <TextBox
+            Background="White"
+            Grid.Row="1"
+            Grid.Column="1"
             x:Name="NicknameBox" 
-            Text="" Margin="0,191,0,0" 
+            Text="" 
             PlaceholderText="Nickname" 
-            BorderBrush="Black" 
-            Height="35"
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Center"
-            Width="283" 
+            BorderBrush="Black"
+           VerticalAlignment="Stretch" 
+            HorizontalAlignment="Stretch"
             PreviewKeyDown="LoginEnter"/>
         <PasswordBox  
-            x:Name="PasswordBox" 
-             Margin="0,255,0,0" 
+            Background="White"
+            Grid.Row="2"
+            Grid.Column="1"
+            x:Name="PasswordBox"  
             PlaceholderText="Password" 
             BorderBrush="Black"
-            Height="35"
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Center"
-            Width="284" 
+            VerticalAlignment="Stretch" 
+            HorizontalAlignment="Stretch"
             PreviewKeyDown="LoginEnter"/>
         <TextBox
+            Background="White"
+            Grid.Row="3"
+            Grid.Column="1"
             x:Name="Email" 
-            Text="" Margin="0,324,0,0" 
+            Text="" 
             PlaceholderText="E-mail" 
             BorderBrush="Black" 
-            Height="35"
-            VerticalAlignment="Top" 
-            HorizontalAlignment="Center"
-            Width="283" 
+           VerticalAlignment="Stretch" 
+            HorizontalAlignment="Stretch"
             PreviewKeyDown="LoginEnter"/>
-        <CheckBox Content="Accept" Margin="58,0,0,0"/>
+        <CheckBox Content="Accept" Grid.Row="4"
+            Grid.Column="1" HorizontalAlignment="Right"/>
         <Button 
+            Background="White"
+            Grid.Row="5"
+            Grid.Column="1"
             Content="Register" 
-            RenderTransformOrigin="0,0" 
-            Margin="0,461,0,0" 
-            VerticalAlignment="Top" 
-            Height="68" Width="284" 
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
             Click="RegisterAsync" 
             FontSize="24" 
             FontWeight="Bold" 
             FontStyle="Normal" 
-            Background="#66FFFFFF" 
-            BorderBrush="Black" 
-            HorizontalAlignment="Center"/>
-        <TextBlock x:Name="Not_connected" 
+            BorderBrush="Black" />
+        
+        <TextBlock 
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    x:Name="Not_connected" 
                    x:FieldModifier="public" 
                    Text="Could not Connect to server try again later!" 
-                   TextWrapping="Wrap" Margin="0,496,0,0" 
+                   TextWrapping="Wrap" 
                    FontFamily="Calibri" FontSize="16" 
                    FocusVisualPrimaryBrush="Red"
-                   VerticalAlignment="Top" Height="39" 
+                   VerticalAlignment="Stretch" Height="39" 
                    HorizontalAlignment="Center" 
                    Visibility="Collapsed"/>
 
         <TextBlock 
+            
+            Grid.Row="6"
+            Grid.Column="1"
             x:Name="NullLogin" 
             x:FieldModifier="public" 
             Text="Login and Password Can not be null" 
-            TextWrapping="Wrap"
-            Margin="0,534,0,0" 
+            TextWrapping="Wrap" 
             FontFamily="Calibri" 
             FontSize="16" 
             FocusVisualPrimaryBrush="Red" 
-            VerticalAlignment="Top" 
-            Height="39" 
+            VerticalAlignment="Stretch" 
             HorizontalAlignment="Center" 
-            Visibility="Collapsed"/>
+           Visibility="Collapsed"/>
 
 
 
-        <TextBlock x:Name="Wrong" x:FieldModifier="public" Visibility="Collapsed" Text="Nickname or E-mail is in use try again" TextWrapping="Wrap" Margin="58,531,46,215" FontFamily="Calibri" FontSize="18" />
-        <TextBlock x:Name="ok" x:FieldModifier="public" Visibility="Collapsed" Text="You can now login" TextWrapping="Wrap" Margin="58,534,46,211" FontFamily="Calibri" FontSize="18" />
-        <TextBlock x:Name="con" x:FieldModifier="public" Visibility="Collapsed" Text="Can Not Connect to the server" TextWrapping="Wrap" Margin="58,534,46,211" FontFamily="Calibri" FontSize="18" />
+        <TextBlock x:Name="Wrong" Grid.Row="6" Grid.Column="1" x:FieldModifier="public" Visibility="Collapsed" Text="Nickname or E-mail is in use try again" TextWrapping="Wrap" FontFamily="Calibri" FontSize="18" />
+        <TextBlock x:Name="ok" Grid.Row="6" Grid.Column="1" x:FieldModifier="public" Visibility="Collapsed" Text="You can now login" TextWrapping="Wrap"  FontFamily="Calibri" FontSize="18" />
+        <TextBlock x:Name="con" Grid.Row="6" Grid.Column="1" x:FieldModifier="public" Visibility="Collapsed" Text="Can Not Connect to the server" TextWrapping="Wrap" FontFamily="Calibri" FontSize="18" />
         <AppBarButton Icon="Back" Margin="0,10,0,0" Click="Back"/>
     </Grid>
 </Page>

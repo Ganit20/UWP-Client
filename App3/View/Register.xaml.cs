@@ -31,7 +31,7 @@ namespace App3.View
         private async void RegisterAsync(object sender, RoutedEventArgs e)
         {
             if(NicknameBox.Text!="" && PasswordBox.Password!="" && Email.Text!="")
-            await new  RegisterC().registerMeAsync(NicknameBox.Text,PasswordBox.Password, Email.Text, "127.0.0.1",this);
+            await new  RegisterC().registerMeAsync(NicknameBox.Text,PasswordBox.Password, Email.Text, "51.137.130.21", this);
         }
 
         private void LoginEnter(object sender, KeyRoutedEventArgs e)

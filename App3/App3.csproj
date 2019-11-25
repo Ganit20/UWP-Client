@@ -118,6 +118,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\user BYtes.cs" />
+    <Compile Include="ViewModel\TextOperations.cs" />
+    <Compile Include="ViewModel\Encryption.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

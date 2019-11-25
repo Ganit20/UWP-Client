@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace App3.ViewModel
@@ -24,44 +25,51 @@ namespace App3.ViewModel
             if (c.Connected)
             {
                 var st = c.GetStream();
-                var msg = JsonConvert.SerializeObject(new user() { Name = Nick, email = email, password = Password });
-                msg = "REG?" + msg + "?END";
-                byte[] g = System.Text.Encoding.ASCII.GetBytes(msg);
-                st.Write(g, 0, g.Length);
-
+                var msg = JsonConvert.SerializeObject(new user() { Name = Nick, email = email, password =Encoding.UTF8.GetString(new Encryption().Encrypt(Password)) });
+                msg = "REG?" + msg;
+                var emsg = new Encryption().Encrypt(msg);
+                byte[] g = System.Text.Encoding.UTF8.GetBytes(new TextOperations().intLength(emsg.Length));
+                var dcd = new TextOperations().addByte(g, emsg);
+                st.Write(dcd, 0, dcd.Length);
                 try
                 {
-                    String response = String.Empty;
-                    Byte[] ByteLength = new byte[4];
+                    string response = string.Empty;
+                    byte[] ByteLength = new byte[4];
                     Array.Clear(ByteLength, 0, ByteLength.Length);
+                    st.ReadTimeout = 10000;
                     Int32 bytes = st.Read(ByteLength, 0, 4);
 
-                    if (st.DataAvailable)
-                    {
+                 
                         try
                         {
-                            String v = System.Text.Encoding.ASCII.GetString(ByteLength, 0, 4);
-                            String d = v.Substring(0, v.IndexOf('?', 0, 4));
+                            string v = System.Text.Encoding.UTF8.GetString(ByteLength, 0, 4);
+                            string d = v.Substring(0, v.IndexOf('?', 0, 4));
                             int bl = int.Parse(d);
-                            Byte[] data = new Byte[bl];
+                            byte[] data = new byte[bl];
                             Int32 mesg = st.Read(data, 0, bl);
-                            string strmsg = System.Text.Encoding.ASCII.GetString(data);
+                            string strmsg = new Encryption().Decrypt(data);
                             string vstrmsg = strmsg.Substring(0, strmsg.IndexOf('?'));
-                            if (vstrmsg.Equals("RDC"))
+                        if (vstrmsg.Equals("RDC"))
+                        {
+                            strmsg = strmsg.Substring(strmsg.IndexOf('?') + 1);
+                            if (strmsg.Equals("Confirmed"))
                             {
-                                strmsg = strmsg.Substring(strmsg.IndexOf('?') + 1, strmsg.IndexOf("?", strmsg.IndexOf('?') + 1) - 4);
-                                if (strmsg.Equals("Confirmed"))
-                                {
-                                    reg.Wrong.Visibility = (Visibility)1;
-                                    reg.ok.Visibility = 0;
-                                    st.Dispose();
-                                    c.Dispose();
-                                    
-                                }
-                                else if (strmsg.Equals("Nope"))
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                 {
+                                     reg.Wrong.Visibility = (Visibility)1;
+                                     reg.ok.Visibility = 0;
+                                     st.Dispose();
+                                     c.Dispose();
+                                 });
+                        }
+                        else if (strmsg.Equals("Nope"))
+                        {
+                                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
                                     reg.ok.Visibility = (Visibility)1;
                                     reg.Wrong.Visibility = 0;
+                                });
+                                
                                     st.Dispose();
                                     c.Dispose();
                                 }
@@ -71,11 +79,7 @@ namespace App3.ViewModel
 
                             reg.con.Visibility = 0;
 
-                        } }
-                    else
-                    {
-                        reg.con.Visibility = (Visibility)1;
-                    }
+                        } 
                     }
                 
                 catch (SocketException)

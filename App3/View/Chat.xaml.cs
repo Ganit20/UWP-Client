@@ -39,7 +39,7 @@ namespace App3.View
             Task.Factory.StartNew(() =>
            {
                var rec = new Receiving();
-               rec.Reading(this,st);
+               rec.ReadingAsync(this,st);
            });
         }
         static public async Task OnUiThread(Action action)
